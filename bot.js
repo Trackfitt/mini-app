@@ -1,8 +1,14 @@
 require('dotenv').config(); // Load environment variables
+const express = require('express'); // Add Express for webhooks
 const { Telegraf } = require('telegraf');
 
-const bot = new Telegraf(process.env.BOT_TOKEN); // Use the bot token from .env
+// Create an Express app
+const app = express();
 
+// Initialize the Telegram bot
+const bot = new Telegraf(process.env.BOT_TOKEN);
+
+// Define the /start command
 bot.command('start', (ctx) => {
   // Send the image with a caption using the direct URL
   ctx.replyWithPhoto(
@@ -23,5 +29,15 @@ bot.command('start', (ctx) => {
   );
 });
 
-bot.launch();
-console.log('Bot is running...');
+// Set up the webhook endpoint
+const WEBHOOK_PATH = '/telegram-updates'; // Replace with your desired webhook path
+app.use(bot.webhookCallback(WEBHOOK_PATH)); // Set up the webhook callback
+bot.telegram.setWebhook(`https://mini-app-z6ne.onrender.com${WEBHOOK_PATH}`); // Replace with your Render app URL
+
+// Start the HTTP server
+const PORT = process.env.PORT || 3000; // Use the provided port or default to 3000
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
+
+console.log('Telegram bot is running with webhooks...');
