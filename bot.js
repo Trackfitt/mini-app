@@ -12,7 +12,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN);
 bot.command('start', (ctx) => {
   // Send the image with a caption using the direct URL
   ctx.replyWithPhoto(
-    { url: 'https://i.postimg.cc/gcswRwd2/photo-2025-01-20-16-14-02.jpg' }, // Replace with your direct link
+    { url: 'https://res.cloudinary.com/duvkebyxi/image/upload/v1737654906/qubigq9wandu3mb70hgh.jpg' }, // Replace with your direct link
     {
       caption: 'Verify you are a human with safeguard portal', // Caption text
       reply_markup: {
